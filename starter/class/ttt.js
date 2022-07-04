@@ -26,12 +26,13 @@ class TTT {
 
     this.cursor.setBackgroundColor();
     TTT.turnMessage.call(this);
-    Screen.render();
     Screen.printCommands();
   }
 
   static turnMessage() {
-    Screen.message = `It is ${this.playerTurn}'s turn`
+    Screen.setMessage(`It is ${this.playerTurn}'s turn`)
+    Screen.render();
+
   }
 
   static placeMove() {
@@ -52,19 +53,16 @@ class TTT {
       } else this.playerTurn = 'O';
 
       TTT.turnMessage.call(this);
-
-      Screen.render();
       Screen.printCommands();
 
   } else {
-      Screen.message = `Spot already taken`
+      Screen.setMessage(`Spot already taken`);
       Screen.render();
       Screen.printCommands();
     }
   }
 
   static moveUp() {
-    // let currentRow = this.cursor.row
     this.cursor.up();
   }
 
