@@ -25,7 +25,7 @@ class Cursor {
     Screen.printCommands();
   }
 
-  up() {
+  up = () => {
     // Move cursor up
     this.resetBackgroundColor();
     if (this.row !== 0) {
@@ -34,7 +34,7 @@ class Cursor {
     this.setBackgroundColor();
   }
 
-  down() {
+  down = () => {
     // Move cursor down
     this.resetBackgroundColor();
     if (this.row !== 2) {
@@ -43,7 +43,7 @@ class Cursor {
     this.setBackgroundColor();
   }
 
-  left() {
+  left = () => {
     // Move cursor left
     this.resetBackgroundColor();
     if(this.col !== 0) {
@@ -52,7 +52,7 @@ class Cursor {
     this.setBackgroundColor();
   }
 
-  right() {
+  right = () => {
     // Move cursor right
     this.resetBackgroundColor();
     if(this.col !== 2) {

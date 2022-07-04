@@ -18,10 +18,10 @@ class TTT {
     Screen.setGridlines(true);
 
     // Replace this with real commands
-    Screen.addCommand('w', 'Moves cursor up', TTT.moveUp.bind(this));
-    Screen.addCommand('s', 'Moves cursor down', TTT.moveDown.bind(this));
-    Screen.addCommand('a', 'Moves cursor left', TTT.moveLeft.bind(this));
-    Screen.addCommand('d', 'Moves cursor right', TTT.moveRight.bind(this));
+    Screen.addCommand('w', 'Moves cursor up', this.cursor.up.bind(this));
+    Screen.addCommand('a', 'Moves cursor left', this.cursor.left.bind(this));
+    Screen.addCommand('s', 'Moves cursor down', this.cursor.down.bind(this));
+    Screen.addCommand('d', 'Moves cursor right', this.cursor.right.bind(this));
     Screen.addCommand('return', 'Place a move', TTT.placeMove.bind(this));
 
     this.cursor.setBackgroundColor();
@@ -32,7 +32,6 @@ class TTT {
   static turnMessage() {
     Screen.setMessage(`It is ${this.playerTurn}'s turn`)
     Screen.render();
-
   }
 
   static placeMove() {
@@ -60,22 +59,6 @@ class TTT {
       Screen.render();
       Screen.printCommands();
     }
-  }
-
-  static moveUp() {
-    this.cursor.up();
-  }
-
-  static moveDown() {
-    this.cursor.down();
-  }
-
-  static moveLeft() {
-    this.cursor.left();
-  }
-
-  static moveRight() {
-    this.cursor.right();
   }
 
   static checkRowWin(row) {
@@ -121,7 +104,7 @@ class TTT {
 
   }
 
-  static checkTie(grid) {
+  static usedSpaces(grid) {
     let count = 0;
     grid.forEach(row => {
       row.forEach(col => {
@@ -131,7 +114,7 @@ class TTT {
       });
     });
 
-    return (count === grid.length * grid.length)
+    return (count)
   }
   /*
   grid[0][0] === grid[1][1] === grid[2][2]
@@ -144,10 +127,12 @@ class TTT {
     // Return 'T' if the game is a tie
     // Return false if the game has not ended
     let winner = false;
+    let usedSpaces = this.usedSpaces(grid);
 
     if (!winner) {
       winner = this.checkHorizontalWin(grid);
     }
+
     if(!winner) {
       winner = this.checkVerticalWin(grid);
     }
@@ -156,16 +141,11 @@ class TTT {
       winner = this.checkDiagWin(grid);
     }
 
-    if (!winner) {
-      if (this.checkTie(grid)) {
-        winner = 'T'
-      }
+    if (!winner && usedSpaces === grid.length ** 2) {
+      winner = 'T';
     }
 
-    if(winner){
-      TTT.endGame(winner)
-    }
-
+    return winner;
   }
 
   static endGame(winner) {
